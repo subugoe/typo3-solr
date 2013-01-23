@@ -578,7 +578,7 @@ class tx_solr_Query {
 	 * @param array $allowedSites Comma-separated list of domains
 	 */
 	public function setSiteHashFilter($allowedSites) {
-		$allowedSites = t3lib_div::trimExplode(',', $allowedSites);
+		$allowedSites = t3lib_div::trimExplode(',', $allowedSites, TRUE);
 		$filters      = array();
 
 		foreach($allowedSites as $site) {
