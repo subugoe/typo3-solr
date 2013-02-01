@@ -60,10 +60,11 @@ class tx_solr_Template {
 	 */
 	public function __construct(tslib_cObj $contentObject, $templateFile, $subpart) {
 		$this->cObj = $contentObject;
-		$this->templateFile = $templateFile;
 
-		$this->loadHtmlFile($templateFile);
-		$this->workOnSubpart($subpart);
+			$this->templateFile = $templateFile;
+
+			$this->loadHtmlFile($templateFile);
+			$this->workOnSubpart($subpart);
 	}
 
 	/**

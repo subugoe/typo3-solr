@@ -24,9 +24,9 @@ plugin.tx_solr {
 	}
 
 	cssFiles {
-		results     = EXT:solr/resources/css/pi_results/results.css
+		results     = EXT:solr/Resources/Public/Css/pi_results/results.css
 		pagebrowser = EXT:pagebrowse/res/styles_min.css
-		ui          = EXT:solr/resources/css/jquery-ui/jquery-ui.custom.css
+		ui          = EXT:solr/Resources/Public/Css/jquery-ui/jquery-ui.custom.css
 	}
 
 	javascriptFiles {

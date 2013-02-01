@@ -197,8 +197,8 @@ class tx_solr_pi_results extends tx_solr_pluginbase_CommandPluginBase {
 				t3lib_div::devLog('received search query', 'solr', 0, array($rawUserQuery));
 			}
 
-			$query = t3lib_div::makeInstance('tx_solr_Query', $rawUserQuery);
 			/* @var	$query	tx_solr_Query */
+			$query = t3lib_div::makeInstance('tx_solr_Query', $rawUserQuery);
 
 			$resultsPerPage = $this->getNumberOfResultsPerPage();
 			$query->setResultsPerPage($resultsPerPage);
@@ -351,12 +351,11 @@ class tx_solr_pi_results extends tx_solr_pluginbase_CommandPluginBase {
 	 * Post initialization of the template engine, adding some Solr variables.
 	 *
 	 * @see	classes/pluginbase/tx_solr_pluginbase_PluginBase#postInitializeTemplate($template)
-	 * @param	tx_solr_Template	The template object as initialized thus far.
+	 * @param	tx_solr_Template|tx_solr_FluidTemplate	The template object as initialized thus far.
 	 * @return	tx_solr_Template	The modified template instance with additional variables available for rendering.
 	 */
 	protected function postInitializeTemplateEngine($template) {
 		$template->addVariable('tx_solr', $this->getSolrVariables());
-
 		return $template;
 	}
 

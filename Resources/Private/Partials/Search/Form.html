@@ -1,0 +1,11 @@
+<div class="tx-solr-search-form">
+	###FORM.SUGGEST_URL###
+	<f:form action="{form.action}" id="tx-solr-search-form-pi-results" method="get" arguments="{accept-charset: '###FORM.ACCEPT-CHARSET###'}">
+		<f:form.textfield class="tx-solr-q" name="{tx_solr.query_parameter}" value="{tx_solr.q}" />
+		<f:form.hidden name="id" value="17" />
+		<f:form.hidden name="###FORM.ACTION_LANGUAGE_PARAMETER###" value="###FORM.ACTION_LANGUAGE###" />
+		<f:form.submit class="tx-solr-submit" value="{f:translate(key:'LLL:EXT:solr/Resources/Private/Language/locallang.xml:submit')}" />
+
+		###FORM.HIDDEN_PARAMETER_FIELDS###
+	</f:form>
+</div>

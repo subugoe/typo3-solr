@@ -1,0 +1,60 @@
+
+{results.query}
+{results.count}
+{results.range}
+
+<div id="tx-solr-pagination">
+	<div id="tx-solr-pagination-results-per-page">
+	<form action="{form.action ->f:format.raw()}" method="post">
+		<f:translate key="LLL:EXT:solr/Resources/Private/Language/locallang.xml:results_per_page" /><select onchange="this.form.submit()" name="{tx_solr.prefix}[resultsPerPage]">
+<f:for each="{option}" as="select">
+			<option value="{select.value}" {option.selected}>{select.value}</option>
+</f:for>
+		</select>
+	</form>
+	</div>
+
+	{results.pagebrowser -> f:format.raw()}
+</div>
+<ol start="###RESULTS.OFFSET###" class="results-list">
+	<f:for each="{result_document}" as="result">
+	<li class="results-entry">
+		<!--
+		Score: {result.score}
+		Document ID:  {result.id}
+		-->
+
+		<h5 class="results-topic"><a href="{result.url}">{result.title}</a></h5>
+		<div class="results-teaser">
+			<div class="relevance">
+				<div class="relevance-label"><f:translate key="LLL:EXT:solr/Resources/Private/Language/locallang.xml:relevance" />: </div>
+				<div class="relevance-bar">###RELEVANCE_BAR:###RESULT_DOCUMENT######</div>
+				<div class="relevance-percent">###RELEVANCE:###RESULT_DOCUMENT######%</div>
+			</div>
+
+			<p class="result-content">{result.content}</p>
+
+			<f:if condition="{result.type}">
+
+				<p>
+					<f:translate key="LLL:EXT:solr/Resources/Private/Language/locallang.xml:file_mimetype" />: ###RESULT_DOCUMENT.fileMimeType###<br />
+					<f:translate key="LLL:EXT:solr/Resources/Private/Language/locallang.xml:file_referenced" />: ###LINK:###RESULT_DOCUMENT.fileReferenceTitle###|###RESULT_DOCUMENT.fileReferenceUrl######
+				</p>
+
+			</f:if>
+			###RESULT_DOCUMENT.SCORE_ANALYSIS###
+		</div>
+	</li>
+	</f:for>
+</ol>
+
+{results.pagebrowser -> f:format.raw()}
+
+
+
+<!-- ###SOLR_SEARCH_NO_RESULTS### begin -->
+<div class="tx-solr-search-no-results">
+	###NO_RESULTS.NOTHING_FOUND###
+	###NO_RESULTS.SUGGESTION###
+</div>
+<!-- ###SOLR_SEARCH_NO_RESULTS### end -->

@@ -32,6 +32,33 @@
 			<label index="error_errors">We're sorry, there were some errors:</label>
 			<label index="error_emptyQuery">Please enter your search term in the box above.</label>
 		</languageKey>
+		<languageKey index="en" type="array">
+			<label index="searchUnavailable">Search is currently not available.</label>
+			<label index="searchFailed">We're sorry. The request you tried to make could not be processed.</label>
+			<label index="searchWord">Search Term</label>
+			<label index="didYouMean">Did you mean</label>
+			<label index="submit">Search</label>
+			<label index="sorting_sortBy">Sort by</label>
+			<label index="faceting_narrowSearch">Narrow Search</label>
+			<label index="faceting_resultsNarrowedBy">Search narrowed by</label>
+			<label index="faceting_showMore">Show more</label>
+			<label index="faceting_showFewer">Show fewer</label>
+			<label index="faceting_removeAllFilters">Remove all filters</label>
+			<label index="results_range">Displaying results @resultsFrom to @resultsTo of @resultsTotal.</label>
+			<label index="results_found">Found @resultsTotal results in @resultsTime milliseconds.</label>
+			<label index="results_searched_for">Searched for "@searchWord".</label>
+			<label index="no_results_nothing_found">Nothing found for "@searchWord".</label>
+			<label index="no_results_showing_results_suggestion">Showing results for "@suggestedWord"</label>
+			<label index="no_results_search_for_original">Search instead for "@searchWord".</label>
+			<label index="lastSearches">Last searches</label>
+			<label index="frequentSearches">Frequent searches</label>
+			<label index="relevance">Relevance</label>
+			<label index="file_mimetype">File type</label>
+			<label index="file_referenced">Referenced at</label>
+			<label index="results_per_page">Results per page:</label>
+			<label index="error_errors">We're sorry, there were some errors:</label>
+			<label index="error_emptyQuery">Please enter your search term in the box above.</label>
+		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="searchUnavailable">Die Suche steht im Moment nicht zur Verfügung.</label>
 			<label index="searchFailed">Es tut uns leid. Ihre Suchanfrage konnte nicht verarbeitet werden.</label>

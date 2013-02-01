@@ -68,10 +68,10 @@ class tx_solr_pi_results_SuggestFormModifier implements tx_solr_FormModifier, tx
 	 * suggest eID script URL and adding javascript to the page's header.
 	 *
 	 * @param	array	An array of existing form markers
-	 * @param	tx_solr_Template	An instance of the template engine
+	 * @param	tx_solr_Template|tx_solr_FluidTemplate	An instance of the template engine
 	 * @return	array	Array with additional markers for suggestions
 	 */
-	public function modifyForm(array $markers, tx_solr_Template $template) {
+	public function modifyForm(array $markers, $template) {
 		$suggestionsEnabled = $this->configuration['suggest'];
 
 		if ($suggestionsEnabled) {

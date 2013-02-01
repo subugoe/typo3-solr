@@ -123,7 +123,7 @@ class tx_solr_scheduler_ReIndexTaskAdditionalFieldProvider implements tx_schedul
 	protected function getIndexingConfigurationSelector() {
 		$selectorMarkup = 'Please select a site first.';
 
-		$this->schedulerModule->doc->getPageRenderer()->addCssFile('../typo3conf/ext/solr/resources/css/backend/indexingconfigurationselectorfield.css');
+		$this->schedulerModule->doc->getPageRenderer()->addCssFile('../typo3conf/ext/solr/Resources/Public/Css/backend/indexingconfigurationselectorfield.css');
 
 		if (!is_null($this->site)) {
 			$selectorField = t3lib_div::makeInstance(

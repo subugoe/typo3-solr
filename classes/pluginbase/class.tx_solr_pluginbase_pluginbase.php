@@ -40,6 +40,8 @@ abstract class tx_solr_pluginbase_PluginBase extends tslib_pibase {
 	public $prefixId = 'tx_solr';
 	public $extKey   = 'solr';
 
+	protected $useFluidRendering  = TRUE;
+
 	/**
 	 * an instance of tx_solr_Search
 	 *
@@ -62,7 +64,7 @@ abstract class tx_solr_pluginbase_PluginBase extends tslib_pibase {
 	/**
 	 * An instance of tx_solr_Template
 	 *
-	 * @var tx_solr_Template
+	 * @var tx_solr_Template|tx_solr_FluidTemplate
 	 */
 	protected $template;
 
@@ -107,6 +109,7 @@ abstract class tx_solr_pluginbase_PluginBase extends tslib_pibase {
 			} else {
 				$content = $this->renderError();
 			}
+			debug($content);
 
 			$content = $this->postRender($content);
 		} catch(Exception $e) {
@@ -155,6 +158,10 @@ abstract class tx_solr_pluginbase_PluginBase extends tslib_pibase {
 		$this->pi_loadLL();
 		$this->pi_initPIflexForm();
 		$this->overrideTyposcriptWithFlexformSettings();
+
+		if ($this->conf['useFluidRendering'] != 1) {
+			$this->useFluidRendering = FALSE;
+		}
 
 		$this->initializeQuery();
 		$this->initializeSearch();
@@ -234,53 +241,83 @@ abstract class tx_solr_pluginbase_PluginBase extends tslib_pibase {
 	 * @return	tx_solr_Template
 	 */
 	protected function initializeTemplateEngine() {
+
+		if ($this->useFluidRendering) {
+			$this->initializeFluidTemplatingEngine();
+		} else {
+			$this->initializeOldSchoolTemplatingEngine();
+		}
+	}
+
+	/**
+	 * Initializes the Fluid templating engine
+	 */
+	protected function initializeFluidTemplatingEngine() {
+
 		$templateFile = $this->getTemplateFile();
-		$subPart      = $this->getSubpart();
+		$subPart = $this->getSubpart();
 
-		$flexformTemplateFile = $this->pi_getFFvalue(
-			$this->cObj->data['pi_flexform'],
-			'templateFile',
-			'sOptions'
-		);
-		if (!empty($flexformTemplateFile)) {
-			$templateFile = $flexformTemplateFile;
-		}
+		/** @var template tx_solr_FluidTemplate */
+		$template = t3lib_div::makeInstance('tx_solr_FluidTemplate', $this->cObj, $templateFile, $subPart);
 
-		$template = t3lib_div::makeInstance(
-			'tx_solr_Template',
-			$this->cObj,
-			$templateFile,
-			$subPart
-		);
-		$template->addViewHelperIncludePath($this->extKey, 'classes/viewhelper/');
-		$template->addViewHelper('LLL', array(
-			'languageFile' => $GLOBALS['PATH_solr'] . $this->getPluginKey() .'/locallang.xml',
-			'llKey'        => $this->LLkey
-		));
-
-			// can be used for view helpers that need configuration during initialization
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr'][$this->getPluginKey()]['addViewHelpers'])) {
-			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr'][$this->getPluginKey()]['addViewHelpers'] as $classReference) {
-				$viewHelperProvider = &t3lib_div::getUserObj($classReference);
-
-				if ($viewHelperProvider instanceof tx_solr_ViewHelperProvider) {
-					$viewHelpers = $viewHelperProvider->getViewHelpers();
-					foreach ($viewHelpers as $helperName => $helperObject) {
-						$helperAdded = $template->addViewHelperObject($helperName, $helperObject);
-							// TODO check whether $helperAdded is TRUE, throw an exception if not
-					}
-				} else {
-					throw new UnexpectedValueException(
-						get_class($viewHelperProvider) . ' must implement interface tx_solr_ViewHelperProvider',
-						1310387296
-					);
-				}
-			}
-		}
-
+		$template->setTemplate($this->getSubpart());
 		$template = $this->postInitializeTemplateEngine($template);
 
 		$this->template = $template;
+	}
+
+	/**
+	 * Initializes the marker/subpart based templating engine
+	 *
+	 * @throws UnexpectedValueException
+	 */
+	protected function initializeOldSchoolTemplatingEngine() {
+		$templateFile = $this->getTemplateFile();
+				$subPart      = $this->getSubpart();
+
+				$flexformTemplateFile = $this->pi_getFFvalue(
+					$this->cObj->data['pi_flexform'],
+					'templateFile',
+					'sOptions'
+				);
+				if (!empty($flexformTemplateFile)) {
+					$templateFile = $flexformTemplateFile;
+				}
+
+				$template = t3lib_div::makeInstance(
+					'tx_solr_Template',
+					$this->cObj,
+					$templateFile,
+					$subPart
+				);
+				$template->addViewHelperIncludePath($this->extKey, 'classes/viewhelper/');
+				$template->addViewHelper('LLL', array(
+					'languageFile' => $GLOBALS['PATH_solr'] . $this->getPluginKey() .'/locallang.xml',
+					'llKey'        => $this->LLkey
+				));
+
+					// can be used for view helpers that need configuration during initialization
+				if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr'][$this->getPluginKey()]['addViewHelpers'])) {
+					foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr'][$this->getPluginKey()]['addViewHelpers'] as $classReference) {
+						$viewHelperProvider = &t3lib_div::getUserObj($classReference);
+
+						if ($viewHelperProvider instanceof tx_solr_ViewHelperProvider) {
+							$viewHelpers = $viewHelperProvider->getViewHelpers();
+							foreach ($viewHelpers as $helperName => $helperObject) {
+								$helperAdded = $template->addViewHelperObject($helperName, $helperObject);
+									// TODO check whether $helperAdded is TRUE, throw an exception if not
+							}
+						} else {
+							throw new UnexpectedValueException(
+								get_class($viewHelperProvider) . ' must implement interface tx_solr_ViewHelperProvider',
+								1310387296
+							);
+						}
+					}
+				}
+
+				$template = $this->postInitializeTemplateEngine($template);
+				$this->template = $template;
 	}
 
 	/**
@@ -338,8 +375,10 @@ abstract class tx_solr_pluginbase_PluginBase extends tslib_pibase {
 	 * @return	string	A representation of the exception that should be understandable for the user.
 	 */
 	protected function renderException() {
-		$this->template->workOnSubpart('solr_search_error');
 
+		if (!$this->useFluidRendering) {
+			$this->template->workOnSubpart('solr_search_error');
+		}
 		return $this->template->render();
 	}
 

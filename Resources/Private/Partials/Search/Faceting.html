@@ -1,0 +1,49 @@
+<div id="tx-solr-faceting">
+	<!-- ###USED_FACETS### begin -->
+	<div id="tx-solr-facets-in-use" class="secondaryContentSection">
+		<div class="csc-header">
+			<h3 class="csc-firstHeader"><f:translate key="LLL:EXT:solr/Resources/Private/Language/locallang.xml:faceting_resultsNarrowedBy" /></h3>
+		</div>
+		<ul>
+			<!-- ###LOOP:FACETS_IN_USE### begin -->
+			<!-- ###LOOP_CONTENT### -->
+			<li>
+				- <a href="###REMOVE_FACET.url###">###REMOVE_FACET.text###</a>
+			</li>
+			<!-- ###LOOP_CONTENT### -->
+			<!-- ###LOOP:FACETS_IN_USE### end -->
+
+			<li class="facets-remove-all">
+				<a href="###REMOVE_ALL_FACETS.url###">###REMOVE_ALL_FACETS.text###</a>
+			</li>
+		</ul>
+	</div>
+	<!-- ###USED_FACETS### end -->
+
+	<!-- ###AVAILABLE_FACETS### begin -->
+	<div id="tx-solr-facets-available" class="secondaryContentSection">
+		<div class="csc-header">
+			<h3 class="csc-firstHeader"><f:translate key="LLL:EXT:solr/Resources/Private/Language/locallang.xml:faceting_narrowSearch" /></h3>
+		</div>
+		<ul class="facets">
+			<!-- ###SINGLE_FACET### begin -->
+			<li class="facet facet-###FACET.name### facet-type-###FACET.type###">
+				<h5 class="facet-label csc-header">###FACET.label###</h5>
+				<ul class="facet-option-list">
+					<!-- ###SINGLE_FACET_OPTION### begin -->
+					<!-- ###LOOP:FACET_LINKS### begin -->
+					<!-- ###LOOP_CONTENT### -->
+					<li class="facet-option ###FACET_LINK.HIDDEN###">
+						+ ###FACET_LINK.LINK### <span class="facet-result-count">(###FACET_LINK.COUNT###)</span>
+					</li>
+					<!-- ###LOOP_CONTENT### -->
+					<!-- ###LOOP:FACET_LINKS### end -->
+					<!-- ###SINGLE_FACET_OPTION### end -->
+					###FACET.showAllLink###
+				</ul>
+			</li>
+			<!-- ###SINGLE_FACET### end -->
+		</ul>
+	</div>
+	<!-- ###AVAILABLE_FACETS### end -->
+</div>

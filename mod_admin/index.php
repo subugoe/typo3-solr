@@ -127,8 +127,8 @@ class  tx_solr_ModuleAdmin extends t3lib_SCbase {
 				</script>
 			';
 
-			$this->doc->getPageRenderer()->addCssFile('../typo3conf/ext/solr/resources/css/mod_admin/index.css');
-			$this->doc->getPageRenderer()->addCssFile('../typo3conf/ext/solr/resources/css/backend/indexingconfigurationselectorfield.css');
+			$this->doc->getPageRenderer()->addCssFile('../typo3conf/ext/solr/Resources/Public/Css/mod_admin/index.css');
+			$this->doc->getPageRenderer()->addCssFile('../typo3conf/ext/solr/Resources/Public/Css/backend/indexingconfigurationselectorfield.css');
 
 				// Render content:
 			if ($this->site) {

@@ -35,7 +35,7 @@
  */
 interface tx_solr_TemplateModifier {
 
-	public function modifyTemplate(tx_solr_Template $template);
+	public function modifyTemplate($template);
 }
 
 ?>

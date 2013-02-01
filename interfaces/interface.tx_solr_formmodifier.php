@@ -42,7 +42,7 @@ interface tx_solr_FormModifier {
 	 * @param	tx_solr_Template	An instance of the template engine.
 	 * @return	array	Array with additional markers.
 	 */
-	public function modifyForm(array $marker, tx_solr_Template $template);
+	public function modifyForm(array $marker, $template);
 }
 
 ?>
