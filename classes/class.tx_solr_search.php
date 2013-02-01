@@ -218,10 +218,10 @@ class tx_solr_Search implements t3lib_Singleton {
 		$solrAvailable = FALSE;
 
 		try {
-			if (!$this->solr->ping()) {
+			if ($this->solr->ping() === FALSE) {
 				throw new Exception('Solr Server not responding.', 1237475791);
 			}
-
+		
 			$solrAvailable = TRUE;
 		} catch (Exception $e) {
 			if ($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_solr.']['logging.']['exceptions']) {
