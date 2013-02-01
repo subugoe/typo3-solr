@@ -46,17 +46,7 @@ class tx_solr_search_AccessComponent extends tx_solr_search_AbstractComponent im
 	 *
 	 */
 	public function initializeSearchComponent() {
-		$allowedSites = str_replace(
-			'__solr_current_site',
-			tx_solr_Site::getSiteByPageId($GLOBALS['TSFE']->id)->getDomain(),
-			$this->searchConfiguration['query.']['allowedSites']
-		);
-		$this->query->setSiteHashFilter($allowedSites);
-
-		$this->query->setUserAccessGroups(explode(',', $GLOBALS['TSFE']->gr_list));
-
-			// must generate default endtime, @see http://forge.typo3.org/issues/44276
-		$this->query->addFilter('(endtime:[NOW/MINUTE TO *] OR endtime:"' . tx_solr_Util::timestampToIso(0) . '")');
+		$this->query->addAccessRestrictions();
 	}
 
 	/**

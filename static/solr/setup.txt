@@ -124,6 +124,8 @@ plugin.tx_solr {
 			sortBy =
 
 			getParameter = {$plugin.tx_solr.search.query.getParameter}
+
+			ignoreAccessRestrictions = 0
 		}
 
 		results {

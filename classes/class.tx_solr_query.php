@@ -551,6 +551,33 @@ class tx_solr_Query {
 	}
 
 	/**
+	 * Sets standard access restrictions for a query unless access restrictions
+	 * are turned off in the TypoScript configuration.
+	 */
+	public function addAccessRestrictions($TSFE) {
+		$solrConfiguration = tx_solr_Util::getSolrConfiguration();
+		if ($solrConfiguration['search.']['query.']['ignoreAccessRestrictions'] != 1) {
+			if (!$TSFE) {
+				$TSFE = $GLOBALS['TSFE'];
+			}
+
+			// Only return results that are visible for the user’s groups.
+			$this->setUserAccessGroups(explode(',', $TSFE->gr_list));
+
+			// Only return results for appropriate domains.
+			$allowedSites = str_replace(
+				'__solr_current_site',
+				tx_solr_Site::getSiteByPageId($TSFE->id)->getDomain(),
+				$solrConfiguration['search.']['query.']['allowedSites']
+			);
+			$this->setSiteHashFilter($allowedSites);
+
+			// must generate default endtime, @see http://forge.typo3.org/issues/44276
+			$this->addFilter('(endtime:[NOW/MINUTE TO *] OR endtime:"' . tx_solr_Util::timestampToIso(0) . '")');
+		}
+	}
+
+	/**
 	 * Sets access restrictions for a frontend user.
 	 *
 	 * @param	array	an array of groups a user has been assigned to
